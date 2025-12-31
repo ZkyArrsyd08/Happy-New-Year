@@ -6,61 +6,49 @@
 <title>Happy New Year Wrapped</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Allura&family=Italianno&display=swap" rel="stylesheet">
 <style>
-*{margin:0;padding:0;box-sizing:border-box;}
+*{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Poppins,sans-serif;min-height:100vh;overflow-x:hidden;
-background:
-radial-gradient(circle at 20% 20%, rgba(110,180,255,.35), transparent 40%),
-radial-gradient(circle at 80% 30%, rgba(60,140,220,.25), transparent 45%),
-linear-gradient(180deg, #0c3a5e 0%, #061b2e 75%);
+background:linear-gradient(180deg, #0c3a5e 0%, #061b2e 100%);
 position:relative;}
-body::before{content:"";position:fixed;inset:0;
-background:
-radial-gradient(circle at 30% 40%, rgba(170,220,255,.22), transparent 55%),
-radial-gradient(circle at 70% 60%, rgba(100,170,240,.18), transparent 60%);
-animation: wave 16s ease-in-out infinite alternate;z-index:0;}
-@keyframes wave{to{transform:translateY(-22px)}}
-canvas{position:fixed;inset:0;z-index:0;}
+canvas{position:fixed;inset:0;z-index:0}
 
 /* INTRO */
 #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#eaf6ff;z-index:10;}
 #intro h1{font-family:'Italianno',cursive;font-size:3rem;text-shadow:0 0 30px rgba(170,220,255,.9);}
 #intro p{opacity:.75;margin-top:6px;}
-#startBtn{margin-top:34px;padding:14px 40px;border:none;border-radius:30px;background:linear-gradient(135deg,#eaf6ff,#86c8ff);box-shadow:0 0 35px rgba(140,200,255,.9);cursor:pointer;font-size:1rem;}
+#intro button{margin-top:34px;padding:14px 40px;border:none;border-radius:30px;background:linear-gradient(135deg,#eaf6ff,#86c8ff);box-shadow:0 0 35px rgba(140,200,255,.9);cursor:pointer;}
 #countdown{font-size:5rem;color:#7cc3ff;margin-top:20px;display:none;text-shadow:0 0 20px #a0d0ff;}
 
 /* CARD */
-.card{position:relative;z-index:2;max-width:440px;margin:80px auto;background:rgba(255,255,255,.97);border-radius:28px;padding:36px 22px;box-shadow:0 30px 70px rgba(0,0,0,.35);display:none;cursor:pointer;opacity:0;transition:opacity .6s ease;}
-.card.show{opacity:1;}
+.card{position:relative;z-index:2;max-width:440px;margin:80px auto;background:rgba(255,255,255,.97);border-radius:28px;padding:36px 22px;box-shadow:0 30px 70px rgba(0,0,0,.35);display:none;cursor:pointer;transition:all .5s ease;}
 .header{text-align:center;margin-bottom:26px}
 .header h1{font-family:'Italianno',cursive;font-size:3.1rem;color:#0a3a5a;}
 .header::after{content:"";width:120px;height:1px;margin:14px auto 0;display:block;background:linear-gradient(90deg,transparent,#9fd3ff,transparent);}
 
 /* STORY */
-.story-wrapper{background:rgba(255,255,255,.9);border-radius:22px;padding:26px 20px;}
+.story-wrapper{background:rgba(255,255,255,.9);border-radius:22px;padding:26px 20px;transition:all .5s ease;}
 .story{text-align:center;font-size:1rem;line-height:2.15;color:#0a2c44;}
 .line{margin-bottom:22px;padding:0 6px;}
-
-/* TAP */
 .tap{margin-top:16px;font-size:.75rem;opacity:.45;text-align:center;}
 
 /* VIEW */
-.view-btn{display:none;margin:28px auto 0;padding:12px 36px;border-radius:30px;background:linear-gradient(135deg,#e6f4ff,#9fd3ff);box-shadow:0 0 25px rgba(140,200,255,.7);font-size:.85rem;cursor:pointer;opacity:0;transform:scale(0.9);transition:opacity .5s ease, transform .5s ease;}
-.view-btn.show{opacity:1;transform:scale(1);}
+.view-btn{display:none;margin:28px auto 0;padding:12px 36px;border-radius:30px;background:linear-gradient(135deg,#e6f4ff,#9fd3ff);box-shadow:0 0 25px rgba(140,200,255,.7);font-size:.85rem;cursor:pointer;transition:all .5s ease;}
 
 /* GALLERY */
-.gallery{display:none;margin-top:42px;opacity:0;transition:opacity .6s ease;}
-.gallery.show{display:block;opacity:1;}
+.gallery{display:none;margin-top:42px;transition:all .8s ease;}
 .gallery h2{font-family:'Italianno',cursive;font-size:2.1rem;text-align:center;margin-bottom:20px;}
 .photos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;transition:.5s;cursor:pointer;opacity:0;transform:translateY(30px);}
+.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;transition:.4s;cursor:pointer;opacity:0;transform:translateY(20px);}
 .photos img.show{opacity:1;transform:translateY(0);}
+.photos img:hover{transform:scale(1.12);}
+
 .signature{margin-top:42px;text-align:center;opacity:0;transform:translateY(20px);transition:1s ease;}
-.signature h3{font-family:'Italianno',cursive;font-size:2.6rem;}
-.signature.show{opacity:1;transform:none;}
+.signature.show{opacity:1;transform:none}
+.signature span{font-size:.75rem;opacity:.6}
+.signature h3{font-family:'Allura',cursive;font-size:2.6rem;}
 
 /* LIGHTBOX */
-#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;opacity:0;transition:opacity .4s ease;}
-#lightbox.show{display:flex;opacity:1;}
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;}
 #lightbox .memory-box{text-align:center;color:#fff;max-width:320px;animation:fadeUp .8s ease;}
 #lightbox img{width:100%;border-radius:16px;margin-bottom:18px;}
 #lightbox h4{font-weight:500;letter-spacing:1px;opacity:.85;}
@@ -72,8 +60,13 @@ canvas{position:fixed;inset:0;z-index:0;}
 </style>
 </head>
 <body>
+
 <canvas id="fireworks"></canvas>
-<audio id="bgMusic" loop><source src="Sound.mp3" type="audio/mpeg"></audio>
+<canvas id="stars"></canvas>
+
+<audio id="bgMusic" loop>
+  <source src="Sound.mp3" type="audio/mpeg">
+</audio>
 
 <div id="intro">
   <h1>For : Alysa 💙</h1>
@@ -96,7 +89,6 @@ canvas{position:fixed;inset:0;z-index:0;}
       <img src="image3.png">
       <img src="image4.png">
     </div>
-    <div class="tap">Pencet Gambarnya</div>
     <div class="signature" id="signature">
       <span>Sign 🤎</span>
       <h3>Ocid</h3>
@@ -159,7 +151,7 @@ const memImg=document.getElementById("memImg");
 const memMonth=document.getElementById("memMonth");
 const memText=document.getElementById("memText");
 
-// ===== FIREWORKS =====
+// FIREWORKS
 const c=document.getElementById("fireworks"),ctx=c.getContext("2d");
 function resize(){c.width=innerWidth;c.height=innerHeight;}
 resize();addEventListener("resize",resize);
@@ -186,7 +178,29 @@ function animate(){
 setInterval(boom,500);
 animate();
 
-// ===== START & COUNTDOWN =====
+// STARS
+const s=document.getElementById("stars"),sctx=s.getContext("2d");
+function resizeStars(){s.width=innerWidth;s.height=innerHeight;}
+resizeStars();addEventListener("resize",resizeStars);
+const starCount=120;
+const stars=[];
+for(let i=0;i<starCount;i++){
+  stars.push({x:Math.random()*s.width,y:Math.random()*s.height,r:Math.random()*1.5,opacity:Math.random()});
+}
+function animateStars(){
+  sctx.clearRect(0,0,s.width,s.height);
+  stars.forEach(st=>{
+    st.opacity+=Math.random()*0.02-0.01;
+    if(st.opacity<0) st.opacity=0;
+    if(st.opacity>1) st.opacity=1;
+    sctx.fillStyle=`rgba(255,255,255,${st.opacity})`;
+    sctx.beginPath();sctx.arc(st.x,st.y,st.r,0,Math.PI*2);sctx.fill();
+  });
+  requestAnimationFrame(animateStars);
+}
+animateStars();
+
+// COUNTDOWN & START
 startBtn.onclick=()=>{
   startBtn.style.display="none";
   let count=3;
@@ -200,7 +214,6 @@ startBtn.onclick=()=>{
       countdownEl.style.display="none";
       intro.style.display="none";
       card.style.display="block";
-      setTimeout(()=>card.classList.add("show"),50);
       started=true;
       music.volume=0;
       music.play();
@@ -210,11 +223,11 @@ startBtn.onclick=()=>{
   },1000);
 };
 
-// ===== TYPEWRITER =====
+// TYPEWRITER
 function typeNextLine(){
   if(idx>=lines.length){
     viewBtn.style.display="block";
-    setTimeout(()=>viewBtn.classList.add("show"),50);
+    showGalleryImages();
     return;
   }
   typing=true;
@@ -228,46 +241,44 @@ function typeNextLine(){
       div.textContent+=lineText.charAt(charIdx);
       charIdx++;
       setTimeout(typeChar,28);
-    } else {
-      typing=false;
-      if(idx>=lines.length){ // terakhir langsung munculin view memories
-        viewBtn.style.display="block";
-        setTimeout(()=>viewBtn.classList.add("show"),50);
-      }
-    }
+    } else {typing=false;}
   }
   typeChar();
 }
 
-// ===== CARD CLICK =====
+// CARD TAP NEXT
 card.addEventListener("click",()=>{
   if(!started||typing) return;
   typeNextLine();
 });
 
-// ===== VIEW MEMORIES =====
+// VIEW MEMORIES
 viewBtn.onclick=e=>{
   e.stopPropagation();
-  gallery.classList.add("show");
+  gallery.style.display="block";
   viewBtn.style.display="none";
-  const photos=document.querySelectorAll(".photos img");
-  photos.forEach((img,i)=>{
-    setTimeout(()=>img.classList.add("show"), i*200);
-  });
-  setTimeout(()=>signature.classList.add("show"),photos.length*200 + 300);
+  setTimeout(()=>signature.classList.add("show"),700);
+  showGalleryImages();
 };
 
-// ===== LIGHTBOX =====
+// SHOW IMAGES ANIMATED
+function showGalleryImages(){
+  document.querySelectorAll(".photos img").forEach((img,i)=>{
+    setTimeout(()=>{img.classList.add("show");},i*200);
+  });
+}
+
+// MEMORY LIGHTBOX
 document.querySelectorAll(".photos img").forEach((img,i)=>{
   img.onclick=e=>{
     e.stopPropagation();
-    lb.classList.add("show");
+    lb.style.display="flex";
     memImg.src=memories[i].img;
     memMonth.textContent=memories[i].month;
     memText.textContent=memories[i].text;
   };
 });
-lb.onclick=()=>lb.classList.remove("show");
+lb.onclick=()=>lb.style.display="none";
 </script>
 </body>
 </html>
