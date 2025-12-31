@@ -3,14 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy New Year</title>
+<title>Happy New Year Wrapped</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Allura&family=Italianno&display=swap" rel="stylesheet">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{font-family:Poppins,sans-serif;min-height:100vh;overflow-x:hidden;
-background:linear-gradient(180deg, #0c3a5e 0%, #061b2e 100%);
+background:
+radial-gradient(circle at 20% 20%, rgba(110,180,255,.35), transparent 40%),
+radial-gradient(circle at 80% 30%, rgba(60,140,220,.25), transparent 45%),
+linear-gradient(180deg, #0c3a5e 0%, #061b2e 75%);
 position:relative;}
+body::before{content:"";position:fixed;inset:0;
+background:
+radial-gradient(circle at 30% 40%, rgba(170,220,255,.22), transparent 55%),
+radial-gradient(circle at 70% 60%, rgba(100,170,240,.18), transparent 60%);
+animation: wave 16s ease-in-out infinite alternate;z-index:0;}
+@keyframes wave{to{transform:translateY(-22px)}}
 canvas{position:fixed;inset:0;z-index:0}
+
+/* Hilangkan highlight biru di mobile */
+.card, .view-btn, .photos img {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  user-select: none;
+  outline: none;
+}
 
 /* INTRO */
 #intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#eaf6ff;z-index:10;}
@@ -20,27 +37,29 @@ canvas{position:fixed;inset:0;z-index:0}
 #countdown{font-size:5rem;color:#7cc3ff;margin-top:20px;display:none;text-shadow:0 0 20px #a0d0ff;}
 
 /* CARD */
-.card{position:relative;z-index:2;max-width:440px;margin:80px auto;background:rgba(255,255,255,.97);border-radius:28px;padding:36px 22px;box-shadow:0 30px 70px rgba(0,0,0,.35);display:none;cursor:pointer;transition:all .5s ease;}
+.card{position:relative;z-index:2;max-width:440px;margin:80px auto;background:rgba(255,255,255,.97);border-radius:28px;padding:36px 22px;box-shadow:0 30px 70px rgba(0,0,0,.35);display:none;cursor:pointer;transition: transform .1s;}
+.card:active{transform:scale(0.98);}
 .header{text-align:center;margin-bottom:26px}
 .header h1{font-family:'Italianno',cursive;font-size:3.1rem;color:#0a3a5a;}
 .header::after{content:"";width:120px;height:1px;margin:14px auto 0;display:block;background:linear-gradient(90deg,transparent,#9fd3ff,transparent);}
 
 /* STORY */
-.story-wrapper{background:rgba(255,255,255,.9);border-radius:22px;padding:26px 20px;transition:all .5s ease;}
+.story-wrapper{background:rgba(255,255,255,.9);border-radius:22px;padding:26px 20px;}
 .story{text-align:center;font-size:1rem;line-height:2.15;color:#0a2c44;}
 .line{margin-bottom:22px;padding:0 6px;}
 .tap{margin-top:16px;font-size:.75rem;opacity:.45;text-align:center;}
 
 /* VIEW */
-.view-btn{display:none;margin:28px auto 0;padding:12px 36px;border-radius:30px;background:linear-gradient(135deg,#e6f4ff,#9fd3ff);box-shadow:0 0 25px rgba(140,200,255,.7);font-size:.85rem;cursor:pointer;transition:all .5s ease;}
+.view-btn{display:none;margin:28px auto 0;padding:12px 36px;border-radius:30px;background:linear-gradient(135deg,#e6f4ff,#9fd3ff);box-shadow:0 0 25px rgba(140,200,255,.7);font-size:.85rem;cursor:pointer;transition:transform .15s;}
+.view-btn:active{transform:scale(0.95);}
 
 /* GALLERY */
-.gallery{display:none;margin-top:42px;transition:all .8s ease;}
+.gallery{display:none;margin-top:42px;opacity:0;transform:translateY(20px);transition:opacity .6s, transform .6s;}
+.gallery.show{opacity:1;transform:translateY(0);}
 .gallery h2{font-family:'Italianno',cursive;font-size:2.1rem;text-align:center;margin-bottom:20px;}
 .photos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
-.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;transition:.4s;cursor:pointer;opacity:0;transform:translateY(20px);}
-.photos img.show{opacity:1;transform:translateY(0);}
-.photos img:hover{transform:scale(1.12);}
+.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;transition:.4s;cursor:pointer;}
+.photos img:hover{transform:scale(1.12)}
 
 .signature{margin-top:42px;text-align:center;opacity:0;transform:translateY(20px);transition:1s ease;}
 .signature.show{opacity:1;transform:none}
@@ -56,17 +75,18 @@ canvas{position:fixed;inset:0;z-index:0}
 #lightbox .hint{display:block;margin-top:20px;font-size:.7rem;opacity:.4;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
 
-@media(max-width:480px){.card{max-width:90%;margin:70px auto}.header h1{font-size:2.6rem}}
+/* STAR BACKGROUND */
+.star{
+  position:absolute;
+  background:white;
+  border-radius:50%;
+  opacity:0.8;
+}
 </style>
 </head>
 <body>
-
 <canvas id="fireworks"></canvas>
-<canvas id="stars"></canvas>
-
-<audio id="bgMusic" loop>
-  <source src="Sound.mp3" type="audio/mpeg">
-</audio>
+<audio id="bgMusic" loop><source src="Sound.mp3" type="audio/mpeg"></audio>
 
 <div id="intro">
   <h1>For : Alysa 💙</h1>
@@ -106,6 +126,7 @@ canvas{position:fixed;inset:0;z-index:0}
 </div>
 
 <script>
+// TEXTS
 const lines=[
 "Hai, Alysabella Zahirazeta Mylova.",
 "Ngga kerasa ini udah di penghujung tahun 2025 dan bakal berubah jadi 2026.",
@@ -136,6 +157,7 @@ const memories=[
 {img:"image4.png",month:"December 2025",text:"Kita sering banget mainn, dan gapernah bosen akupunnn😭😭😭."}
 ];
 
+// ELEMENTS
 let idx=0, typing=false, started=false;
 const story=document.getElementById("story");
 const card=document.getElementById("card");
@@ -175,32 +197,21 @@ function animate(){
   particles=particles.filter(p=>p.a>0);
   requestAnimationFrame(animate);
 }
-setInterval(boom,500);
-animate();
+setInterval(boom,500);animate();
 
-// STARS
-const s=document.getElementById("stars"),sctx=s.getContext("2d");
-function resizeStars(){s.width=innerWidth;s.height=innerHeight;}
-resizeStars();addEventListener("resize",resizeStars);
-const starCount=120;
-const stars=[];
-for(let i=0;i<starCount;i++){
-  stars.push({x:Math.random()*s.width,y:Math.random()*s.height,r:Math.random()*1.5,opacity:Math.random()});
+// STARS BACKGROUND
+for(let i=0;i<120;i++){
+  const s=document.createElement("div");
+  s.className="star";
+  const size=Math.random()*2+1;
+  s.style.width=s.style.height=size+"px";
+  s.style.top=Math.random()*window.innerHeight+"px";
+  s.style.left=Math.random()*window.innerWidth+"px";
+  s.style.opacity=Math.random();
+  document.body.appendChild(s);
 }
-function animateStars(){
-  sctx.clearRect(0,0,s.width,s.height);
-  stars.forEach(st=>{
-    st.opacity+=Math.random()*0.02-0.01;
-    if(st.opacity<0) st.opacity=0;
-    if(st.opacity>1) st.opacity=1;
-    sctx.fillStyle=`rgba(255,255,255,${st.opacity})`;
-    sctx.beginPath();sctx.arc(st.x,st.y,st.r,0,Math.PI*2);sctx.fill();
-  });
-  requestAnimationFrame(animateStars);
-}
-animateStars();
 
-// COUNTDOWN & START
+// COUNTDOWN
 startBtn.onclick=()=>{
   startBtn.style.display="none";
   let count=3;
@@ -227,7 +238,6 @@ startBtn.onclick=()=>{
 function typeNextLine(){
   if(idx>=lines.length){
     viewBtn.style.display="block";
-    showGalleryImages();
     return;
   }
   typing=true;
@@ -241,12 +251,12 @@ function typeNextLine(){
       div.textContent+=lineText.charAt(charIdx);
       charIdx++;
       setTimeout(typeChar,28);
-    } else {typing=false;}
+    } else typing=false;
   }
   typeChar();
 }
 
-// CARD TAP NEXT
+// CARD CLICK
 card.addEventListener("click",()=>{
   if(!started||typing) return;
   typeNextLine();
@@ -255,18 +265,10 @@ card.addEventListener("click",()=>{
 // VIEW MEMORIES
 viewBtn.onclick=e=>{
   e.stopPropagation();
-  gallery.style.display="block";
+  gallery.classList.add("show");
   viewBtn.style.display="none";
   setTimeout(()=>signature.classList.add("show"),700);
-  showGalleryImages();
 };
-
-// SHOW IMAGES ANIMATED
-function showGalleryImages(){
-  document.querySelectorAll(".photos img").forEach((img,i)=>{
-    setTimeout(()=>{img.classList.add("show");},i*200);
-  });
-}
 
 // MEMORY LIGHTBOX
 document.querySelectorAll(".photos img").forEach((img,i)=>{
@@ -282,4 +284,3 @@ lb.onclick=()=>lb.style.display="none";
 </script>
 </body>
 </html>
-
