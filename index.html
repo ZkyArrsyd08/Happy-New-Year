@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy New Year Wrapped</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Allura&family=Italianno&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Poppins,sans-serif;min-height:100vh;overflow-x:hidden;
+background:
+radial-gradient(circle at 20% 20%, rgba(110,180,255,.35), transparent 40%),
+radial-gradient(circle at 80% 30%, rgba(60,140,220,.25), transparent 45%),
+linear-gradient(180deg, #0c3a5e 0%, #061b2e 75%);
+position:relative;}
+body::before{content:"";position:fixed;inset:0;
+background:
+radial-gradient(circle at 30% 40%, rgba(170,220,255,.22), transparent 55%),
+radial-gradient(circle at 70% 60%, rgba(100,170,240,.18), transparent 60%);
+animation: wave 16s ease-in-out infinite alternate;z-index:0;}
+@keyframes wave{to{transform:translateY(-22px)}}
+canvas{position:fixed;inset:0;z-index:0;}
+
+/* INTRO */
+#intro{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;color:#eaf6ff;z-index:10;}
+#intro h1{font-family:'Italianno',cursive;font-size:3rem;text-shadow:0 0 30px rgba(170,220,255,.9);}
+#intro p{opacity:.75;margin-top:6px;}
+#startBtn{margin-top:34px;padding:14px 40px;border:none;border-radius:30px;background:linear-gradient(135deg,#eaf6ff,#86c8ff);box-shadow:0 0 35px rgba(140,200,255,.9);cursor:pointer;font-size:1rem;}
+#countdown{font-size:5rem;color:#7cc3ff;margin-top:20px;display:none;text-shadow:0 0 20px #a0d0ff;}
+
+/* CARD */
+.card{position:relative;z-index:2;max-width:440px;margin:80px auto;background:rgba(255,255,255,.97);border-radius:28px;padding:36px 22px;box-shadow:0 30px 70px rgba(0,0,0,.35);display:none;cursor:pointer;opacity:0;transition:opacity .6s ease;}
+.card.show{opacity:1;}
+.header{text-align:center;margin-bottom:26px}
+.header h1{font-family:'Italianno',cursive;font-size:3.1rem;color:#0a3a5a;}
+.header::after{content:"";width:120px;height:1px;margin:14px auto 0;display:block;background:linear-gradient(90deg,transparent,#9fd3ff,transparent);}
+
+/* STORY */
+.story-wrapper{background:rgba(255,255,255,.9);border-radius:22px;padding:26px 20px;}
+.story{text-align:center;font-size:1rem;line-height:2.15;color:#0a2c44;}
+.line{margin-bottom:22px;padding:0 6px;}
+
+/* TAP */
+.tap{margin-top:16px;font-size:.75rem;opacity:.45;text-align:center;}
+
+/* VIEW */
+.view-btn{display:none;margin:28px auto 0;padding:12px 36px;border-radius:30px;background:linear-gradient(135deg,#e6f4ff,#9fd3ff);box-shadow:0 0 25px rgba(140,200,255,.7);font-size:.85rem;cursor:pointer;opacity:0;transform:scale(0.9);transition:opacity .5s ease, transform .5s ease;}
+.view-btn.show{opacity:1;transform:scale(1);}
+
+/* GALLERY */
+.gallery{display:none;margin-top:42px;opacity:0;transition:opacity .6s ease;}
+.gallery.show{display:block;opacity:1;}
+.gallery h2{font-family:'Italianno',cursive;font-size:2.1rem;text-align:center;margin-bottom:20px;}
+.photos{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+.photos img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:16px;transition:.5s;cursor:pointer;opacity:0;transform:translateY(30px);}
+.photos img.show{opacity:1;transform:translateY(0);}
+.signature{margin-top:42px;text-align:center;opacity:0;transform:translateY(20px);transition:1s ease;}
+.signature h3{font-family:'Italianno',cursive;font-size:2.6rem;}
+.signature.show{opacity:1;transform:none;}
+
+/* LIGHTBOX */
+#lightbox{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:center;justify-content:center;z-index:9;opacity:0;transition:opacity .4s ease;}
+#lightbox.show{display:flex;opacity:1;}
+#lightbox .memory-box{text-align:center;color:#fff;max-width:320px;animation:fadeUp .8s ease;}
+#lightbox img{width:100%;border-radius:16px;margin-bottom:18px;}
+#lightbox h4{font-weight:500;letter-spacing:1px;opacity:.85;}
+#lightbox p{margin-top:10px;font-size:.95rem;line-height:1.7;opacity:.9;}
+#lightbox .hint{display:block;margin-top:20px;font-size:.7rem;opacity:.4;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+@media(max-width:480px){.card{max-width:90%;margin:70px auto}.header h1{font-size:2.6rem}}
+</style>
+</head>
+<body>
+<canvas id="fireworks"></canvas>
+<audio id="bgMusic" loop><source src="Sound.mp3" type="audio/mpeg"></audio>
+
+<div id="intro">
+  <h1>For : Alysa 💙</h1>
+  <p>From : Adalah Pokoknya</p>
+  <button id="startBtn">Baca</button>
+  <div id="countdown"></div>
+</div>
+
+<div class="card" id="card">
+  <div class="header"><h1>Happy New Year 🎇</h1></div>
+  <div class="story-wrapper"><div class="story" id="story"></div></div>
+  <div class="tap">tap anywhere to continue</div>
+  <div class="view-btn" id="viewBtn">View Memories</div>
+
+  <div class="gallery" id="gallery">
+    <h2>Our Little Memories</h2>
+    <div class="photos">
+      <img src="image1.png">
+      <img src="image2.png">
+      <img src="image3.png">
+      <img src="image4.png">
+    </div>
+    <div class="tap">Pencet Gambarnya</div>
+    <div class="signature" id="signature">
+      <span>Sign 🤎</span>
+      <h3>Ocid</h3>
+    </div>
+  </div>
+</div>
+
+<div id="lightbox">
+  <div class="memory-box">
+    <img id="memImg">
+    <h4 id="memMonth"></h4>
+    <p id="memText"></p>
+    <span class="hint">tap anywhere to close</span>
+  </div>
+</div>
+
+<script>
+const lines=[
+"Hai, Alysabella Zahirazeta Mylova.",
+"Ngga kerasa ini udah di penghujung tahun 2025 dan bakal berubah jadi 2026.",
+"Yang pastinya bakal jadi tahun yang baru, hari yang baru dan tentunya orang yang baru.",
+"Semoga apa yang dilalui di 2025 bisa jadi pelajaran buat kita dan kita perbaiki di tahun yang baru ini.",
+"Makasihh yaa bell udah nemenin hari hari gua di 2025.",
+"Mulai dari oktober kita ketemu n kenalan sampe sekarang di bulan desember akhir tahun ini.",
+"Gua ngerasa hari gua lebih berwarna dan apapun itu gua selalu pergi ke lu bwell.",
+"Banyak yang udah kita lalui dari mulai pulang bareng, makan bareng, bahkan sampe kerumah sakit bareng😭😭.",
+"Tapi hal yang terpenting yang selalu bikin gua senenggg itu kalo gua lagi sama lu apapun itu kondisinya.",
+"Maaff yaaa kalo gua ada salah sama lu, atau kadang bikin lu kesel, gak nyaman, atau kadang bikin lu bosenn.",
+"Gua banyak belajar dari lu, dimulai dari apa yang gua tau sampe gua nggak tau.",
+"Dan lu juga banyak ngasih gua sarann.... dan tentunya bakal gua lakuin kedepannya.",
+"sorryy yaaa kalo gua emang agak batu, tapi nggak kokk gua cuma lagi mikirin apaa yang bisa gua lakuin",
+"intinyaa aku banyak makasihhhh banget sama kamu belll 🤎",
+"semoga kedepannya kita bisa bareng teruss yaaa.",
+"Dan semoga lu selalu nyaman dan aman sama gua.",
+"Kedepannya kalo emang lu ada problem, atau emang ada somethin yang nge ganjall.",
+"U can just call me 😼.",
+"gua bakal hadir kokk",
+"goodluckk di tahun yang baru iniii bellll ✨✨✨✨"
+];
+
+const memories=[
+{img:"image1.png",month:"December 2025",text:"Kita makan bareng habis ujian yang anzay itu😭"},
+{img:"image2.png",month:"Akhir November",text:"WKWKWKKW kita nyuri nyuri waktu buat belajar bareng dari siang sampe malem"},
+{img:"image3.png",month:"November 2025",text:"Kita lomba pmr dan yaa kita capek, tapi seru bangett 😂"},
+{img:"image4.png",month:"December 2025",text:"Kita sering banget mainn, dan gapernah bosen akupunnn😭😭😭."}
+];
+
+let idx=0, typing=false, started=false;
+const story=document.getElementById("story");
+const card=document.getElementById("card");
+const gallery=document.getElementById("gallery");
+const viewBtn=document.getElementById("viewBtn");
+const signature=document.getElementById("signature");
+const music=document.getElementById("bgMusic");
+const countdownEl=document.getElementById("countdown");
+const startBtn=document.getElementById("startBtn");
+const intro=document.getElementById("intro");
+const lb=document.getElementById("lightbox");
+const memImg=document.getElementById("memImg");
+const memMonth=document.getElementById("memMonth");
+const memText=document.getElementById("memText");
+
+// ===== FIREWORKS =====
+const c=document.getElementById("fireworks"),ctx=c.getContext("2d");
+function resize(){c.width=innerWidth;c.height=innerHeight;}
+resize();addEventListener("resize",resize);
+const colors=["rgba(170,220,255,","rgba(120,190,255,","rgba(180,160,255,","rgba(255,210,150,"];
+let particles=[];
+function boom(){
+  const x=Math.random()*c.width,y=Math.random()*c.height*.55;
+  const col=colors[Math.floor(Math.random()*colors.length)];
+  for(let i=0;i<150;i++){
+    const a=Math.random()*Math.PI*2,s=Math.random()*5+1;
+    particles.push({x,y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,a:1,c:col,r:Math.random()*2+1});
+  }
+}
+function animate(){
+  ctx.clearRect(0,0,c.width,c.height);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;p.vy+=.02;p.a-=.012;
+    ctx.fillStyle=p.c+p.a+")";
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();
+  });
+  particles=particles.filter(p=>p.a>0);
+  requestAnimationFrame(animate);
+}
+setInterval(boom,500);
+animate();
+
+// ===== START & COUNTDOWN =====
+startBtn.onclick=()=>{
+  startBtn.style.display="none";
+  let count=3;
+  countdownEl.style.display="block";
+  countdownEl.textContent=count;
+  const interval=setInterval(()=>{
+    count--;
+    if(count>0) countdownEl.textContent=count;
+    else{
+      clearInterval(interval);
+      countdownEl.style.display="none";
+      intro.style.display="none";
+      card.style.display="block";
+      setTimeout(()=>card.classList.add("show"),50);
+      started=true;
+      music.volume=0;
+      music.play();
+      let v=0;const f=setInterval(()=>{if(v<.6){v+=.02;music.volume=v}else clearInterval(f)},120);
+      typeNextLine();
+    }
+  },1000);
+};
+
+// ===== TYPEWRITER =====
+function typeNextLine(){
+  if(idx>=lines.length){
+    viewBtn.style.display="block";
+    setTimeout(()=>viewBtn.classList.add("show"),50);
+    return;
+  }
+  typing=true;
+  const div=document.createElement("div");
+  div.className="line";
+  story.appendChild(div);
+  let charIdx=0;
+  const lineText=lines[idx++];
+  function typeChar(){
+    if(charIdx<lineText.length){
+      div.textContent+=lineText.charAt(charIdx);
+      charIdx++;
+      setTimeout(typeChar,28);
+    } else {
+      typing=false;
+      if(idx>=lines.length){ // terakhir langsung munculin view memories
+        viewBtn.style.display="block";
+        setTimeout(()=>viewBtn.classList.add("show"),50);
+      }
+    }
+  }
+  typeChar();
+}
+
+// ===== CARD CLICK =====
+card.addEventListener("click",()=>{
+  if(!started||typing) return;
+  typeNextLine();
+});
+
+// ===== VIEW MEMORIES =====
+viewBtn.onclick=e=>{
+  e.stopPropagation();
+  gallery.classList.add("show");
+  viewBtn.style.display="none";
+  const photos=document.querySelectorAll(".photos img");
+  photos.forEach((img,i)=>{
+    setTimeout(()=>img.classList.add("show"), i*200);
+  });
+  setTimeout(()=>signature.classList.add("show"),photos.length*200 + 300);
+};
+
+// ===== LIGHTBOX =====
+document.querySelectorAll(".photos img").forEach((img,i)=>{
+  img.onclick=e=>{
+    e.stopPropagation();
+    lb.classList.add("show");
+    memImg.src=memories[i].img;
+    memMonth.textContent=memories[i].month;
+    memText.textContent=memories[i].text;
+  };
+});
+lb.onclick=()=>lb.classList.remove("show");
+</script>
+</body>
+</html>
